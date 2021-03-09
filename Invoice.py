@@ -3,10 +3,11 @@ class Invoice:
     def __init__(self):
         self.items = {}
 
-    def addProduct(self, qnt, price, discount):
+    def addProduct(self, qnt, price, discount, tax):
         self.items['qnt'] = qnt
         self.items['unit_price'] = price
         self.items['discount'] = discount
+        self.items['tax'] = tax
         return self.items
 
     def totalImpurePrice(self, products):
@@ -26,31 +27,30 @@ class Invoice:
 
     def totalPurePrice(self, products):
         total_pure_price = self.totalImpurePrice(products)-self.totalDiscount(products)
-        total_pure_price = round(total_pure_price, 2)
         return total_pure_price
-
-    def totalTax(self, products):
-        total_tax_price = (self.totalImpurePrice(products) - self.totcalDiscount(products)) * 0.07
-        total_tax_price = round(total_tax_price, 2)
-        return total_tax_price;
-
-    def totalPurePriceWithTax(self, products):
-        total_pure_price_with_tax = self.totalPurePrice(products) + self.totalTax(products)
-        total_pure_price_with_tax = round(total_pure_price_with_tax, 2)
-        return total_pure_price_with_tax
 
     def inputAnswer(self, input_value):
         while True:
             userInput = input(input_value)
             if userInput in ['y', 'n']:
                 return userInput
-            print("y or n! Try again.")
-    def inputNumber(self, input_Value):
+            print("y or n! Try again. ")
+
+    def inputNumber(self, input_value):
         while True:
             try:
-                userInput = float(input(input_Value))
+                userInput = float(input(input_value))
             except ValueError:
-                print("Not a number! Try again")
+                print("Not a number! Try again.")
                 continue
             else:
                 return userInput
+    def totalTax(self, products):
+       total_tax_price = (self.totalImpurePrice(products)-self.totalDiscount(products)) * 0.07
+       total_tax_price = round(total_tax_price, 2)
+       return total_tax_price
+
+    def totalPurePriceWithTax(self, products):
+        total_pure_price_with_tax = self.totalPurePrice(products) + self.totalTax(products)
+        total_pure_price_with_tax = round(total_pure_price_with_tax, 2)
+        return total_pure_price_with_tax
