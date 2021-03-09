@@ -1,12 +1,11 @@
 import pytest
-
 from Invoice import Invoice
-
 
 @pytest.fixture()
 def products():
-    products = {'Pen': {'qnt': 10, 'unit_price': 3.75, 'discount': 5, 'tax': 2},
-                'Notebook': {'qnt': 5, 'unit_price': 7.5, 'discount': 10, 'tax': 2}}
+    products = {'Pen': {'qnt': 10, 'unit_price': 3.75, 'discount': 5},
+                'Notebook': {'qnt': 5, 'unit_price': 7.5, 'discount': 10}}
+
     return products
 
 @pytest.fixture()
@@ -14,7 +13,8 @@ def invoice():
     invoice = Invoice()
     return invoice
 
-def test_CanCalucateTotalImpurePrice(invoice, products):
+def test_CanCalculateTotalImpurePrice(products):
+    invoice = Invoice()
     invoice.totalImpurePrice(products)
     assert invoice.totalImpurePrice(products) == 75
 
@@ -26,11 +26,12 @@ def test_CanCalculateTotalPurePrice(invoice, products):
     invoice.totalPurePrice(products)
     assert invoice.totalPurePrice(products) == 69.38
 
-def test_CanCalculateTotalPurePriceWithTax(invoice, products):
-    invoice.totalPurePricewithTax(products)
-    assert invoice.totalPurePricewithTax(products) == 74.2366
+def test_CanCalculateTotalTax(products):
+    invoice = Invoice()
+    invoice.totalTax(products)
+    assert invoice.totalTax(products) == 4.86
 
-def test_CanCalculateTotalTax(invoice, products):
-    invoice.totaltax(products)
-    assert invoice.totaltax(products) == 4.8566
+def test_CanCalculateTotalPurePriceWithTax(invoice, products):
+    invoice.totalPurePriceWithTax(products)
+    assert invoice.totalPurePriceWithTax(products) == 74.24
 
